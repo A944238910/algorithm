@@ -1,0 +1,22 @@
+class Solution {
+    static List <String> list;
+    static int len;
+    public List<String> restoreIpAddresses(String s) {
+      list = new ArrayList();
+      len = s.length();
+      dfs(0,0,s,"");  
+      return list;
+    }
+    public void dfs(int num,int sta,String s,String str)
+    {
+      if(num > 4)return ;
+      if(num == 4 && sta == len){list.add(str);return ;}
+      for(int i = 1; i <= 3 ;i++)
+      {
+          if(sta+i > len)break;
+          int x = Integer.parseInt(s.substring(sta,sta+i));
+          if( (i > 1 && s.charAt(sta)!='0' && x<= 255) || ( i==1 && x<=255))
+                dfs(num+1,sta+i,s,num<3?str+s.substring(sta,sta+i)+".":str+s.substring(sta,sta+i));
+      }
+    }
+}

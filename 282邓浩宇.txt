@@ -1,0 +1,56 @@
+class Solution {
+    List <String> list;
+    List <Integer> num_z;
+    List<Integer> cha;
+    public List<String> addOperators(String num, int target) {
+        list = new LinkedList();
+        num_z = new LinkedList();
+        cha = new LinkedList();
+        for(int i = 1 ; i < num.length() ; i++)
+        {
+            // list.add(num.substring(0,i));
+            int n = Integer.parseInt(num.substring(0,i));
+            num_z.add(n);
+            dfs(num,n,i,target);
+            num_z.remove(0);
+        }
+        return list;
+    }
+    public void dfs(String num,int sum,int sta,int target)
+    {  
+        
+        if(sta == num.length())
+        {
+           if(sum == target) fun();
+            return ;
+        }
+        for(int i = sta+1; i <= num.length() ; i++)
+        {    
+            if(num.charAt(sta)=='0' && i -sta >= 2)return ;
+             int n =Integer.parseInt (num.substring(sta,i));
+             num_z.add(n);
+              for(int j = 1 ; j <= 3 ; j++)
+              {
+                  if( j == 1 ){cha.add(j);dfs(num,sum+n,i,target);cha.remove(cha.size()-1);}
+                  if( j == 2 ){cha.add(j);dfs(num,sum-n,i,target);cha.remove(cha.size()-1);}
+                  if( j == 3) {cha.add(j);if(cha.size() >1 && cha.get(cha.size()-2 )!= 3){ int x = num_z.get(num_z.size()-2);
+                  if(cha.get(cha.size()-2) == 1)dfs(num,((sum-x)+ x * n),i,target); if(cha.get(cha.size()-2) == 2)dfs(num,((sum+x) - (x * n)),i,target);}
+                 else dfs(num,sum*n,i,target);cha.remove(cha.size()-1);}
+              }
+              num_z.remove(num_z.size()-1);
+        }
+    }
+    public void fun()
+    {
+        // list.add("0000000000");
+        String a = ""+num_z.get(0);
+        for(int i = 1 ; i < num_z.size();i++)
+        {  
+            if(cha.get(i-1) ==1)a+="+";
+            else if(cha.get(i-1) ==2)a+="-";
+            else a+="*";
+            a+=num_z.get(i);
+        }
+        list.add(a);
+    }
+}

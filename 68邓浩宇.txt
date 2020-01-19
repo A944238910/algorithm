@@ -1,0 +1,77 @@
+class Solution { 
+      List <String>list = new LinkedList();
+    public List<String> fullJustify(String[] words, int maxWidth) {
+      int []a = new int[words.length+1];
+      for(int i = 0 ; i < words.length ; i++)
+        {
+            a[i] = words[i].length();
+            a[words.length]=0;
+        //    list.add(a[i]);
+        }
+        // return list;
+        int len = a[0],count = 1,sta = 0;
+        for(int i = 0 ; i < words.length ; i++)
+        {
+            // len+=a[i];
+            count++;
+            if(len+a[i+1]+i-sta+1> maxWidth || i == words.length-1)
+            {
+                fun(words,maxWidth,i != words.length-1?count-1:count,sta,i,len);
+                sta=i+1;
+                count = 1;
+                len = a[i+1];
+            }
+            else len+=a[i+1];
+        }
+        return list;
+    }
+    public void fun(String words[],int maxWidth,int count,int sta ,int end,int len)
+    {
+       String a="";
+       if(end == words.length-1)
+       {
+           for(int i = sta;i < end ;i++)
+           {
+           a+=words[i];
+           a+=" ";
+        //    maxWidth--
+           }
+           len+=count-1;
+           a+=words[end];
+           while(len<=maxWidth)
+           {
+               a+=" ";
+               len++;
+           }
+           list.add(a);return ;
+       }
+       if(count - 1 == 0)
+       {
+            a+=words[sta];
+            for(int i = 0 ; i < maxWidth -len ;i++)
+            a+=" ";
+            list.add(a);
+            return ;
+       }
+       int space = maxWidth - len;
+      int []spa = new int[count-1];
+      for(int i = 0 ; i < count-1 ;i++)
+      spa[i]=0;
+      int i = 0;
+       while(space != 0)
+       {
+           spa[i]++;
+           i++;
+          space--;
+           if(i == spa.length)i=0;
+       }
+       for(i = sta;i <=end ;i++)
+       {
+           a+=words[i];
+           if(i!=end)
+           for(int j = 0; j < spa[i-sta];j++)
+           a+=" ";
+       }
+       list.add(a);return ;
+    }
+}

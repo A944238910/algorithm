@@ -1,0 +1,19 @@
+class Solution {
+    public double champagneTower(int poured, int query_row, int query_glass) {
+        double [][]a = new double[101][101];
+        a[0][0] = poured;
+        for(int i = 0 ; i <= query_row ; i++)
+          for(int j = 0 ; j <= i ;j++)
+          {
+              double x = (a[i][j] - 1.0)/2.0;
+              if(x >= 0.0)
+              {
+                  a[i+1][j]+=x;
+                  a[i+1][j+1]+=x;
+              }
+          }
+          double min = 1.0;
+          min = Math.min(min,a[query_row][query_glass]);
+            return min;
+    }
+}
